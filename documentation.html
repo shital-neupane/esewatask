@@ -1,0 +1,678 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eSewa Hybrid Project Technical Documentation</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Fira+Code:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --secondary: #64748b;
+            --bg: #f8fafc;
+            --surface: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --border: #e2e8f0;
+            --code-bg: #1e293b;
+            --code-text: #f8fafc;
+            --success: #10b981;
+            --warning: #f59e0b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            line-height: 1.6;
+            display: flex;
+        }
+
+        /* Sidebar */
+        nav {
+            width: 320px;
+            height: 100vh;
+            background: var(--surface);
+            border-right: 1px solid var(--border);
+            position: fixed;
+            padding: 2rem;
+            overflow-y: auto;
+        }
+
+        nav h2 {
+            font-size: 1.25rem;
+            color: var(--primary);
+            margin-bottom: 2rem;
+            font-weight: 800;
+        }
+
+        nav h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.1em;
+            margin: 1.5rem 0 0.5rem;
+        }
+
+        nav ul {
+            list-style: none;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            display: block;
+            padding: 0.5rem;
+            border-radius: 0.5rem;
+            transition: all 0.2s;
+        }
+
+        nav ul li a:hover {
+            background: var(--primary-light);
+            color: var(--primary);
+        }
+
+        nav ul li.active a {
+            background: var(--primary-light);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        main {
+            margin-left: 320px;
+            width: calc(100% - 320px);
+            padding: 4rem 8%;
+            max-width: 1200px;
+        }
+
+        section {
+            margin-bottom: 6rem;
+            scroll-margin-top: 2rem;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            letter-spacing: -0.05em;
+            font-weight: 800;
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.75rem;
+            font-weight: 700;
+        }
+
+        h3 {
+            color: var(--text-main);
+            margin-top: 2.5rem;
+            margin-bottom: 1rem;
+            font-size: 1.4rem;
+            border-left: 4px solid var(--primary);
+            padding-left: 1rem;
+        }
+
+        h4 {
+            color: var(--primary);
+            margin: 1.5rem 0 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        p {
+            margin-bottom: 1.5rem;
+            color: var(--text-muted);
+        }
+
+        /* Components */
+        .req-list {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .req-item {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            gap: 1rem;
+        }
+
+        .req-status {
+            flex-shrink: 0;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--success);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .req-content h4 {
+            font-size: 1.05rem;
+            margin: 0 0 0.25rem 0;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+
+        .req-content p {
+            font-size: 0.9rem;
+            margin-bottom: 0;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            margin-right: 0.5rem;
+            vertical-align: middle;
+        }
+
+        .badge-android {
+            background: #3ddc84;
+            color: #073042;
+        }
+
+        .badge-ios {
+            background: #000000;
+            color: white;
+        }
+
+        .badge-flutter {
+            background: #02569b;
+            color: white;
+        }
+
+        .code-container {
+            margin: 2rem 0;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background: #f1f5f9;
+            padding: 0.75rem 1.25rem;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .file-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        pre {
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            background: var(--code-bg);
+            color: var(--code-text);
+            margin: 0;
+        }
+
+        .explanation {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            padding-left: 1rem;
+            border-left: 2px solid var(--border);
+        }
+
+        .file-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .file-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .file-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .file-card h5 {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .file-card p {
+            font-size: 0.85rem;
+            margin-bottom: 0;
+        }
+
+        .walkthrough-step {
+            display: flex;
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .step-num {
+            flex-shrink: 0;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+        }
+
+        .step-body {
+            flex-grow: 1;
+        }
+
+        .highlight-box {
+            background: var(--primary-light);
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
+        }
+
+        .highlight-box strong {
+            color: var(--primary);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--surface);
+        }
+
+        th,
+        td {
+            padding: 1.25rem;
+            border: 1px solid var(--border);
+            text-align: left;
+            font-size: 0.9rem;
+        }
+
+        th {
+            background: #f8fafc;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        footer {
+            margin-top: 8rem;
+            padding: 4rem 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 1024px) {
+            nav {
+                width: 260px;
+            }
+
+            main {
+                margin-left: 260px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav>
+        <h2>eSewa Technical Docs</h2>
+
+        <h3>Core</h3>
+        <ul>
+            <li><a href="#requirements">Functional Specs</a></li>
+            <li><a href="#nav-flow">Navigation Flow</a></li>
+        </ul>
+
+        <h3>Project Structure</h3>
+        <ul>
+            <li><a href="#android-files">Android Implementation</a></li>
+            <li><a href="#ios-files">iOS Implementation</a></li>
+            <li><a href="#flutter-files">Flutter Module</a></li>
+        </ul>
+
+        <h3>Technical Mapping</h3>
+        <ul>
+            <li><a href="#mapping-arch">Architecture Specs</a></li>
+            <li><a href="#mapping-auth">Auth & Session</a></li>
+            <li><a href="#mapping-flutter">Channel Integration</a></li>
+            <li><a href="#mapping-payment">Data Flow</a></li>
+        </ul>
+
+        <h3>Links</h3>
+        <ul>
+            <li><a href="#deliverables">Project Deliverables</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="requirements">
+            <h2>Functional Specifications</h2>
+            <p>The eSewa Hybrid Application is built to meet high-performance and security standards for mobile
+                financial services.</p>
+
+            <h3>Native App Requirements</h3>
+            <ul class="req-list" style="margin-left: 1.5rem; list-style: disc; color: var(--text-muted);">
+                <li style="margin-bottom: 0.5rem;"><strong>Native Platforms:</strong> Android (Kotlin), iOS (Swift)</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Android SDK:</strong> CompileSDK & TargetSDK: 35</li>
+                <li style="margin-bottom: 0.5rem;"><strong>iOS:</strong> Latest Swift version supported</li>
+                <li style="margin-bottom: 0.5rem;"><strong>UI/UX:</strong> Dynamic theming (Light/Dark) support with
+                    minimal, premium styling</li>
+            </ul>
+
+            <h3>Flutter Module Requirements</h3>
+            <ul class="req-list" style="margin-left: 1.5rem; list-style: disc; color: var(--text-muted);">
+                <li style="margin-bottom: 0.5rem;"><strong>Pre-load Logic:</strong> Cache UUID from native; Dynamic load
+                    based on injected config</li>
+                <li style="margin-bottom: 0.5rem;"><strong>App Configurations:</strong> Includes ThemeMode, Colors,
+                    Spacing, and Typography</li>
+                <li style="margin-bottom: 0.5rem;"><strong>Architecture:</strong> Riverpod state management; Dio network
+                    library; API call logging; UUID header injection</li>
+            </ul>
+        </section>
+
+        <section id="nav-flow">
+            <h2>Navigation Flow</h2>
+            <div class="walkthrough-step">
+                <div class="step-num">1</div>
+                <div class="step-body">
+                    <h4>Launch App</h4>
+                    <p>The app checks for a cached UUID. If found, it bypasses the login screen and immediately
+                        initializes the Flutter module. Otherwise, the Native Login screen is displayed.</p>
+                </div>
+            </div>
+            <div class="walkthrough-step">
+                <div class="step-num">2</div>
+                <div class="step-body">
+                    <h4>Login Flow</h4>
+                    <p>Users enter credentials on a native screen with validation. On success, a random UUID is
+                        generated and stored securely. This UUID, along with theme configurations, is passed to the
+                        Flutter module upon initialization.</p>
+                </div>
+            </div>
+            <div class="walkthrough-step">
+                <div class="step-num">3</div>
+                <div class="step-body">
+                    <h4>Flutter Interaction</h4>
+                    <p>The Flutter module loads the Product List. Users can tap to view Details. Clicking "Pay" triggers
+                        a return to the Native app with the selected product's payload.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="android-files">
+            <h2>Android Implementation File Library</h2>
+            <div class="file-grid">
+                <div class="file-card">
+                    <h5>App.kt</h5>
+                    <p>Subclasses Application to pre-warm the Flutter Engine and manage global dependencies.
+                        Orchestrates the initial application configuration dispatch.</p>
+                </div>
+                <div class="file-card">
+                    <h5>MainActivity.kt</h5>
+                    <p>The primary entry point that hosts the Flutter UI. Manages the bidirectional MethodChannel for
+                        theme updates and payment actions.</p>
+                </div>
+                <div class="file-card">
+                    <h5>LoginActivity.kt</h5>
+                    <p>Native Jetpack Compose screen for secure user authentication. Handles the transition logic from
+                        native to the Flutter-based main view.</p>
+                </div>
+                <div class="file-card">
+                    <h5>AuthManager.kt</h5>
+                    <p>Handles user session lifecycle, including login, registration, and UUID generation. Uses
+                        encrypted storage for high-security persistence.</p>
+                </div>
+                <div class="file-card">
+                    <h5>SecurityProvider.kt</h5>
+                    <p>Utility for initializing EncryptedSharedPreferences using MasterKeys (AES-256-GCM), ensuring
+                        sensitive data is protected at rest.</p>
+                </div>
+                <div class="file-card">
+                    <h5>build.gradle.kts</h5>
+                    <p>Configuration script defining SDK versions (targeting 35) and managing dependencies for Jetpack
+                        Compose and Flutter integration.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="ios-files">
+            <h2>iOS Implementation File Library</h2>
+            <div class="file-grid">
+                <div class="file-card">
+                    <h5>subiosApp.swift</h5>
+                    <p>The SwiftUI App entry point. Initializes the shared FlutterManager into the environment for
+                        global access across the UI.</p>
+                </div>
+                <div class="file-card">
+                    <h5>FlutterManager.swift</h5>
+                    <p>Singleton manager for the iOS FlutterEngine and MethodChannels. Handles the "getAppConfig" calls
+                        and pushes real-time theme updates.</p>
+                </div>
+                <div class="file-card">
+                    <h5>FlutterView.swift</h5>
+                    <p>A UIViewControllerRepresentable wrapper that allows the Flutter UI to be embedded seamlessly
+                        within the SwiftUI view hierarchy.</p>
+                </div>
+                <div class="file-card">
+                    <h5>LoginView.swift</h5>
+                    <p>SwiftUI-based implementation of the secure login screen. Checks for existing session data before
+                        presenting the UI.</p>
+                </div>
+                <div class="file-card">
+                    <h5>AuthManager.swift</h5>
+                    <p>iOS-specific session coordinator. Integrates with KeychainHelper for secure storage of the
+                        authentication UUID.</p>
+                </div>
+                <div class="file-card">
+                    <h5>KeychainHelper.swift</h5>
+                    <p>Low-level security utility wrapping the iOS Security framework to provide simple, encrypted
+                        storage of session tokens.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="flutter-files">
+            <h2>Flutter Module File Library</h2>
+            <div class="file-grid">
+                <div class="file-card">
+                    <h5>main.dart</h5>
+                    <p>Defines the 'mainWithConfig' entry point. Bootstraps the app by receiving initial theme and
+                        session data from the native host.</p>
+                </div>
+                <div class="file-card">
+                    <h5>models/app_config.dart</h5>
+                    <p>Freezed-powered data models for strict type-safe management of Theme, Spacing, and Typography
+                        tokens.</p>
+                </div>
+                <div class="file-card">
+                    <h5>providers/config_provider.dart</h5>
+                    <p>Riverpod state notifier that manages the application configuration. Features local caching and
+                        live updates from Native.</p>
+                </div>
+                <div class="file-card">
+                    <h5>services/api_client.dart</h5>
+                    <p>Advanced Dio implementation. Features interceptors for automatic header injection and secure
+                        logging for production.</p>
+                </div>
+                <div class="file-card">
+                    <h5>services/native_channel_service.dart</h5>
+                    <p>The communication hub. Handles all asynchronous MethodChannel calls to Android and iOS for
+                        platform-specific actions.</p>
+                </div>
+                <div class="file-card">
+                    <h5>screens/product_list_screen.dart</h5>
+                    <p>Responsive catalog UI that renders products using the dynamic theme tokens received from the
+                        native host.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="mapping-arch">
+            <h2>Technical Implementation Details</h2>
+            <h3>Architecture & Specifications</h3>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">esewasub/app/build.gradle.kts</span>
+                    <span class="badge badge-android">Android</span>
+                </div>
+                <pre>android {
+    compileSdk = 35
+    defaultConfig {
+        minSdk = 24
+        targetSdk = 35
+    }
+}</pre>
+            </div>
+            <p class="explanation">The Android project strictly adheres to the SDK 35 requirement, maximizing
+                compatibility with the latest system features while ensuring security via modern API targets.</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">flutter_product_module/lib/models/app_config.dart</span>
+                    <span class="badge badge-flutter">Flutter</span>
+                </div>
+                <pre>class AppConfig with _$AppConfig {
+  const factory AppConfig({
+    required String uuid,
+    required ThemeMode themeMode,
+    required ThemeColors colors,
+    required SpacingConfig spacing,
+    required TypographyConfig typography,
+  }) = _AppConfig;
+}</pre>
+            </div>
+            <p class="explanation">Configuration models ensure that Flutter remains visually synchronized with its
+                native host by consuming a standardized JSON schema for style tokens.</p>
+        </section>
+
+        <section id="mapping-auth">
+            <h3>Auth & Session Management</h3>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">esewasub/app/src/main/java/com/example/esewasub/LoginActivity.kt</span>
+                    <span class="badge badge-android">Android</span>
+                </div>
+                <pre>if (AuthManager.getActiveUser(this) != null) {
+    startActivity(MainActivity.createIntent(this))
+    finish()
+}</pre>
+            </div>
+            <p class="explanation">The application implements session-safe bypassing. If a valid UUID is found in
+                encrypted storage, the user is automatically transitioned to the main activity, skipping the login flow.
+            </p>
+        </section>
+
+        <section id="mapping-flutter">
+            <h3>Channel & Integration</h3>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">flutter_product_module/lib/services/api_client.dart</span>
+                    <span class="badge badge-flutter">Flutter</span>
+                </div>
+                <pre>_dio.interceptors.add(InterceptorsWrapper(
+    onRequest: (options, handler) {
+        options.headers['X-Session-UUID'] = _uuid;
+        return handler.next(options);
+    },
+));</pre>
+            </div>
+            <p class="explanation">Security is maintained by injecting the native-generated UUID intoทุก API request
+                header automatically via a Dio interceptor, ensuring consistent session tracking across the entire
+                hybrid stack.</p>
+        </section>
+
+        <section id="mapping-payment">
+            <h3>Data Flow (Flutter to Native)</h3>
+            <div class="code-container">
+                <div class="code-header">
+                    <span class="file-path">flutter_product_module/lib/screens/product_detail_screen.dart</span>
+                    <span class="badge badge-flutter">Flutter</span>
+                </div>
+                <pre>final payload = {
+    'productId': product.id,
+    'title': product.title,
+    'price': product.price,
+};
+await ref.read(nativeChannelServiceProvider).initiatePayment(payload);</pre>
+            </div>
+            <p class="explanation">The "Checkout" action demonstrates cross-boundary data transfer. Flutter packages the
+                selected item details and sends them back to the native implementation for final payment processing.</p>
+        </section>
+
+        <section id="deliverables">
+            <h2>Project Deliverables</h2>
+            <div class="highlight-box">
+                <p><strong>Git Repository:</strong> <a
+                        href="https://github.com/shital-neupane/esewatask">shital-neupane/esewatask</a></p>
+                <p><strong>Debug Build (APK/IPA):</strong> <a
+                        href="https://drive.google.com/drive/folders/1tPpw6JpZHQAKtyXF7KOpbD0G1u1NFkPz?usp=sharing">Google
+                        Drive Access</a></p>
+            </div>
+        </section>
+
+        <footer>
+            <p> eSewa Hybrid Implementation Guide </p>
+        </footer>
+    </main>
+
+    <script>
+        // Intersection Observer for Sidebar Active State
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('nav ul li').forEach(li => li.classList.remove('active'));
+                    const id = entry.target.getAttribute('id');
+                    const link = document.querySelector(`nav ul li a[href="#${id}"]`);
+                    if (link) link.parentElement.classList.add('active');
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('section').forEach(section => observer.observe(section));
+    </script>
+</body>
+
+</html>
