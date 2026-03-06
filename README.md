@@ -2,6 +2,9 @@
 
 A high-performance hybrid mobile application demonstrating the integration of native Android (Kotlin) and iOS (Swift) with a shared Flutter module. Sensitive logic such as authentication and session management remains native, while complex UI components like product lists and details are shared via Flutter.
 
+### Output Android + IOS
+[Google Drive][https://drive.google.com/drive/folders/1tPpw6JpZHQAKtyXF7KOpbD0G1u1NFkPz?usp=sharing]
+
 ## Key Requirements & Implementation
 
 ### 1. Native Platform Support
@@ -47,10 +50,18 @@ cd ..
 ### 3. Run the Application
 
 #### Android
+(Opening with android studio is recommended since it automatically generates config files, if not using android studio you can manually add local.properties file to point to your sdk or set global android home variable)
+example local.properties content: sdk.dir=/home/username/Android/Sdk
+example android home entry: 
+```bash
+export ANDROID_HOME=/home/cretor/Android/Sdk
+```
+
 ```bash
 cd esewasub
 ./gradlew installDebug
 ```
+Open the esewasub app on your device
 
 #### iOS
 1. Ensure the Flutter module is prepared (Step 2).
